@@ -1,6 +1,10 @@
 ## Maritime Traffic Slowdowns
 ### Using PortWatch datasets to model traffic slowdowns for maritime commercial shipping. 
 
+#### Jupyter Notebook
+
+[view exploratory analysis and initial modeling](analysis.html)
+
 #### Datasets: 
 
 - ports 
