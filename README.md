@@ -3,7 +3,7 @@
 
 #### Jupyter Notebook
 
-[view exploratory analysis and initial modeling](analysis.html)
+[notebook with exploratory analysis, proof of concept](https://samAmabile.github.io/Maritime/analysis.html)
 
 #### Datasets: 
 
