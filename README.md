@@ -74,7 +74,8 @@ Test Rows:  18156
 
 Before fitting a model, we standardize the features using Scikit-Learn's Standard Scaler. The intention of this is to put all numerical features on the same scale. The general formula 
 
-For feature j:
+For feature j
+
 $$
 x_{i, j}^* = \frac{x_{i,j} - \bar{x}_j}{s_j} 
 $$
