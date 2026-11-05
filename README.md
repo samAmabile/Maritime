@@ -5,6 +5,28 @@
 
 [notebook with exploratory analysis, proof of concept](https://samAmabile.github.io/Maritime/analysis.html)
 
+
+### Modeling Time-Series Data
+
+According to Faouzi (2025), the general assumption of conditional independence of observations required by many standard machine learning algorithms such as the Naive Bayes is not suited for time series data, as the order of the values in the dataset is itself an important feature of observations, and correlation is expected. A recognized technique for adapting time-series for classification is to extract features from the chronological data to use as inputs for a standard classification model. If one variable is used from the time series the model is considered univariate, multiple variables is called multivariate. 
+
+For this analysis a single variable was used, the total number of ships transiting a chokepoint on a given day, meaning the underlying dataset is univariate. Multiple features are calculated from the single variable, so the final feature matrix is multivariate, but the overall model should be considered univariate since all features are derived from the same variable.
+
+[(Faouzi, 2025)](https://inria.hal.science/hal-03558165v2)
+
+There are 28 chokepoints in the data, and in order to predict traffic slowdowns at each chokepoint they should be modeled separately, so the complete dataset is a panel of 28 univariate time series. 
+
+[(Alam, 2020)](https://medium.com/data-science/panel-data-regression-a-powerful-time-series-modeling-technique-7509ce043fa8) 
+
+## Chokepoint Day
+### The dataset is chronological, so a unit of observation is a chokepoint day
+
+For dataset $D$, observation $i$, calendar date $t$ and observed chokepoint-date combinations $\Omega$ 
+
+$$D = \{(i, t, \mathbb{Y}_{i, t}): (i, t) \in \Omega\} $$
+
+*Multiple chokepoints are observed over time, but importantly each observation is not independent. They have to be considered as part of a time series, and all sampling, data splitting, predicting, and validating must be designed specifically for temporal data to avoid data leakage.*
+
 #### Ports and Chokepoints
 
 ![ports and chokepoints](ports_chokepoints.png)
@@ -57,6 +79,7 @@ $$
 x_{i, j}^* = \frac{x_{i,j} - \bar{x}_j}{s_j} 
 $$
 
+where $s_j$ is the standard deviation of feature j
 ## Logistic Regression 
 
 Using logistic regression on the scaled features, the model learns a linear combination of regression coefficients $\beta$ for $p$ features
