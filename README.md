@@ -103,7 +103,6 @@ $$
 For this classification we start with the default classifcation threshold of 0.5 
 
 $$
-
 \hat{y_i} = 
 \begin{cases}
 1 : &P(y_i==1|X_i) \geq 0.5\\
