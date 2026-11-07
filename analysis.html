@@ -7816,7 +7816,12 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Predicting-Traffic-Slowdowns-at-Known-Maritime-Chokepoints">Predicting Traffic Slowdowns at Known Maritime Chokepoints<a class="anchor-link" href="#Predicting-Traffic-Slowdowns-at-Known-Maritime-Chokepoints">¶</a></h1><h2 id="Chokepoint-Day">Chokepoint Day<a class="anchor-link" href="#Chokepoint-Day">¶</a></h2><h3 id="The-dataset-is-chronological,-so-a-unit-of-observation-is-a-chokepoint-day">The dataset is chronological, so a unit of observation is a chokepoint day<a class="anchor-link" href="#The-dataset-is-chronological,-so-a-unit-of-observation-is-a-chokepoint-day">¶</a></h3><p>For dataset $D$, observation $i$, calendar date $t$ and observed chokepoint-date combinations $\Omega$</p>
+<h1 id="Predicting-Traffic-Slowdowns-at-Known-Maritime-Chokepoints">Predicting Traffic Slowdowns at Known Maritime Chokepoints<a class="anchor-link" href="#Predicting-Traffic-Slowdowns-at-Known-Maritime-Chokepoints">¶</a></h1><h2 id="Modeling-Time-Series-Data">Modeling Time-Series Data<a class="anchor-link" href="#Modeling-Time-Series-Data">¶</a></h2><p>According to Faouzi (2025), the general assumption of conditional independence of observations required by many standard machine learning algorithms such as the Naive Bayes is not suited for time series data, as the order of the values in the dataset is itself an important feature of observations, and correlation is expected. A recognized technique for adapting time-series for classification is to extract features from the chronological data to use as inputs for a standard classification model. If one variable is used from the time series the model is considered univariate, multiple variables is called multivariate.</p>
+<p>For this analysis a single variable was used, the total number of ships transiting a chokepoint on a given day, meaning the underlying dataset is univariate. Multiple features are calculated from the single variable, so the final feature matrix is multivariate, but the overall model should be considered univariate since all features are derived from the same variable.</p>
+<p><a href="https://inria.hal.science/hal-03558165v2">(Faouzi, 2025)</a></p>
+<p>There are 28 chokepoints in the data, and in order to predict traffic slowdowns at each chokepoint they should be modeled separately, so the complete dataset is a panel of 28 univariate time series.</p>
+<p><a href="https://medium.com/data-science/panel-data-regression-a-powerful-time-series-modeling-technique-7509ce043fa8">(Alam, 2020)</a></p>
+<h2 id="Chokepoint-Day">Chokepoint Day<a class="anchor-link" href="#Chokepoint-Day">¶</a></h2><h3 id="The-dataset-is-chronological,-so-a-unit-of-observation-is-a-chokepoint-day">The dataset is chronological, so a unit of observation is a chokepoint day<a class="anchor-link" href="#The-dataset-is-chronological,-so-a-unit-of-observation-is-a-chokepoint-day">¶</a></h3><p>For dataset $D$, observation $i$, calendar date $t$ and observed chokepoint-date combinations $\Omega$</p>
 <p>$$D = \{(i, t, \mathbb{Y}_{i, t}): (i, t) \in \Omega\} $$</p>
 <p><em>Multiple chokepoints are observed over time, but importantly each observation is not independent. They have to be considered as part of a time series, and all sampling, data splitting, predicting, and validating must be designed specifically for temporal data to avoid data leakage.</em></p>
 </div>
@@ -7827,7 +7832,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">daily_chkpnt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"Daily_Chokepoints_Data.csv"</span><span class="p">)</span>
@@ -7842,7 +7847,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [56]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">ports</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"Ports.csv"</span><span class="p">)</span>
@@ -7898,7 +7903,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [39]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">disruption_events</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -7912,7 +7917,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[39]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -8739,7 +8744,7 @@ y_{c,t} =
 0 &amp;\text{if } F_{c,t} \geq 0.7\mu_{c,t}^{(28)} 
 \end{cases} 
 $$</p>
-<h2 id="Chokepoint-Identity">Chokepoint Identity<a class="anchor-link" href="#Chokepoint-Identity">¶</a></h2><p>In addition to the predictive features, we need to represent which chokepoint a particular observed traffic baseline/forecast belongs to. We create a list of 28 Chokepoint Variables $C$, and only the chokepoint variable at the index that matches the chokepoint of the current time series will be labeled 1, with all others labeledc 0. This will allow us to track behavior across each chokepoint, and see how traffic behavior varies at different chokepoints.</p>
+<h2 id="Chokepoint-Identity">Chokepoint Identity<a class="anchor-link" href="#Chokepoint-Identity">¶</a></h2><h3 id="One-Hot-encoding">One-Hot encoding<a class="anchor-link" href="#One-Hot-encoding">¶</a></h3><p>In addition to the predictive features, we need to represent which chokepoint a particular observed traffic baseline/forecast belongs to. We create a list of 28 Chokepoint Variables $C$, and only the chokepoint variable at the index that matches the chokepoint of the current time series will be labeled 1, with all others labeledc 0. This will allow us to track behavior across each chokepoint, and see how traffic behavior varies at different chokepoints. We use this boolean array because using the index directly as an integer would potentially teach the model a linear association between index numbers and targets. as though the index was a quantity.</p>
 <p>$$
 C_i = \begin{cases}
 1 &amp;\text{ if observation } x_{c,t} \text{ belongs to chokepoint } i\\
@@ -9070,6 +9075,7 @@ $$</p>
 $$
 x_{i, j}^* = \frac{x_{i,j} - \bar{x}_j}{s_j} 
 $$</p>
+<p>*here $s_j$ is the standard deviation of feature $j$</p>
 <h2 id="Logistic-Regression">Logistic Regression<a class="anchor-link" href="#Logistic-Regression">¶</a></h2><p>Using logistic regression on the scaled features, the model learns a linear combination of regression coefficients $\beta$ for $p$ features</p>
 <p>$$
 z_i = \beta_0 + \sum_{j=1}^p \beta_j x_{i,j}^*
