@@ -24,6 +24,7 @@ The logistic regression model improves Recall@3 by **0.297** over the persistenc
 ##### HTML renderings of notebooks 
 
 [complete final notebook with all models, results][https://samAmabile.github.io/Maritime/report.html]
+
 [notebook with exploratory analysis, proof of concept](https://samAmabile.github.io/Maritime/analysis.html)
 
 
