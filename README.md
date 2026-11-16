@@ -1,8 +1,29 @@
 ## Maritime Traffic Slowdowns
 ### Using PortWatch datasets to model traffic slowdowns for maritime commercial shipping. 
+#### Headline Result
 
-#### Jupyter Notebook
+Logistic regression fit on three ratio features achieved a **Recall@3 score of 0.824**, outperforming the persistence baseline of **0.527**.
 
+| Model | Recall@3 | Average Precision (AP) |
+|---|---:|---:|
+| Logistic Regression (3 ratio features) | **0.824** | 0.438 |
+| Persistence Baseline | 0.527 | 0.278 |
+
+The logistic regression model improves Recall@3 by **0.297** over the persistence baseline.
+
+#### To Run
+
+* Complete analysis in ```report.ipynb```
+* press run all, or run manually, final cell shows the headline result. 
+
+#### Jupyter Notebooks
+
+* report.ipynb: the complete final notebook
+* anlysis.ipynb: initial modelling and analysis 
+
+##### HTML renderings of notebooks 
+
+[complete final notebook with all models, results][https://samAmabile.github.io/Maritime/report.html]
 [notebook with exploratory analysis, proof of concept](https://samAmabile.github.io/Maritime/analysis.html)
 
 
@@ -21,11 +42,13 @@ There are 28 chokepoints in the data, and in order to predict traffic slowdowns 
 ## Chokepoint Day
 ### The dataset is chronological, so a unit of observation is a chokepoint day
 
-For dataset $D$, observation $i$, calendar date $t$ and observed chokepoint-date combinations $\Omega$ 
+For dataset $\mathbb{D}$, let $\mathcal{C}$ be the set of chokepoints ($|\mathcal{C}| = 28$) and $\mathcal{T}$ be the set of calendar dates. Then let $x_{c, t}$ be the number of ships ('n_total' in the csv) transiting chokepoint $c \in \mathcal{C}$ on date $t \in \mathcal{T}$. And let $\Omega$ be the set of observed chokepoint-date pairs. 
 
-$$D = \{(i, t, \mathbb{Y}_{i, t}): (i, t) \in \Omega\} $$
+$$
+\mathbb{D} = \{(c,\,\, t, \,\, x_{c, t}) : (c, t) \in \Omega\}, \qquad \Omega \subseteq \mathcal{C} \times \mathcal{T}
+$$
 
-*Multiple chokepoints are observed over time, but importantly each observation is not independent. They have to be considered as part of a time series, and all sampling, data splitting, predicting, and validating must be designed specifically for temporal data to avoid data leakage.*
+*Observations are not independent. Each chokepoint is its own time series, so what happens on one day is dependent on previous days and affects subsequent days. Additionally, chokepoints can be affected by the same shocks, or a slowdown at one chokepoint may cause a traffic increase at another. All sampling, data splitting, predicting, and validating must be designed specifically for temporal data to avoid data leakage.*
 
 #### Ports and Chokepoints
 
@@ -112,7 +135,7 @@ $$
 
 Where a prediction of 1 means the model predicts that traffic will decrease by more than 30% and a predicion of 0 means the model predicts it will not. 
 
-We put the Scaler and Logistic Regression model in a pipeline, fit it to the pre $T_0 - 7$ training data, and test on the post $T_0$ test set.
+Scaler and Logistic Regression model in a pipeline, fit it to the pre $T_0 - 7$ training data, and test on the post $T_0$ test set.
 
 # Addressing the class imbalance 
 
