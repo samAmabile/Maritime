@@ -77,6 +77,10 @@ https://portwatch.imf.org/datasets/d9b37bf4b2104c85aebdcc0c1d8a2ab7/about
 
 https://portwatch.imf.org/datasets/3da2b9ca97684916b75c4013f95d18ab/about
 
+#### Unsupervised analysis: K-Means clusters 
+
+![plots of k-means clustering results](k_means.png)
+
 ## Splitting Time Series into Train and Test sets Chronologically 
 
 Time series data has a meaningful chronological order and therefore cannot be shuffled and split like more standard datasets for regression or classification. Instead, we have to split the data chronologically, such that all Training data is taken from before the cutoff date $T_0$, and all Testing is done on the data from after $T_0$. We include a 7 day gap buffer to ensure that none of the training forecast targets use data from the testing period. 
