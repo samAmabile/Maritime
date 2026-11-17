@@ -81,6 +81,13 @@ https://portwatch.imf.org/datasets/3da2b9ca97684916b75c4013f95d18ab/about
 
 ![plots of k-means clustering results](k_means.png)
 
+
+#### Metrics and Baselines 
+
+Evaluation metric was updated from **Average Precision** only to include **Recall@K** for K=3 chokepoints. This was done after the modelling during evaluation, so it is not part of the original experiment, but rather part of the exploratory analysis of the model after the fact. 
+
+Similarly, in addition to the original baseline of the **Prior Predictor**, during exploratory evaluation the model was also tested against the **Persistence Rule**, which predicts traffic slowdown based on already being in a period of slowdown. 
+
 ## Splitting Time Series into Train and Test sets Chronologically 
 
 Time series data has a meaningful chronological order and therefore cannot be shuffled and split like more standard datasets for regression or classification. Instead, we have to split the data chronologically, such that all Training data is taken from before the cutoff date $T_0$, and all Testing is done on the data from after $T_0$. We include a 7 day gap buffer to ensure that none of the training forecast targets use data from the testing period. 
@@ -144,5 +151,6 @@ Scaler and Logistic Regression model in a pipeline, fit it to the pre $T_0 - 7$ 
 
 # Addressing the class imbalance 
 
-To properly evaluate the model's performance, we need to compare it to a default prediction baseline to assess it's performance as either better, worse, or about equal to random chance, and by how much. If class labels were balanced between the two classes ($\{0: \text{No Slowdown}, 1: \text{Slowdown}\}$) we could use a dummy model that predicts each class with 50% probability, or a simple random sample of the classes. Since the classes here are extremely unbalanced, the danger is that a model which predicts $0$ every time would achieve 97% accuracy. Therefore in order to see if this model is learning anything valuable in training we can compare its performance against a model that predicts each class with probability equal to that classes proportion in the dataset. We achieve this using Scikit Learn's Dummy Classifier, set to "prior". 
+The dataset only has about 3\% positive labels, so testing against a 50% baseline would not work, since a model that predicts 0 100\% of the time would achieve 97\% accuracy. Instead, we test against the prior, which predicts each class according to its proportion in the dataset. 
 
+While this is enough to show that the model is detecting a signal, after further evaluation a stronger benchmark was selected. **The Persisntence Rule** addresses the issues of temporal auto-correlations by predicting a slowdown based on whether a chokepoint is already in a period of decreased traffic, based on the expectation that that will continue. Since autoregressive predictors that use a single variable against time can most easily predict a trend by simply following the slope of the data, beating this is a more significant achievement. 
