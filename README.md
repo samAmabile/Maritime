@@ -15,9 +15,12 @@ The logistic regression model improves Recall@3 by **0.297** over the persistenc
 ```bash
 git clone https://github.com/samAmabile/Maritime.git 
 cd Maritime 
+
+# the easiest way to run is to press run all in an IDE that supports ipynb, or run cells individually top to bottom. Running all takes about 5 minutes to complete. 
 ```
 
 * Complete analysis in ```report.ipynb```
+* Final feature vector in ```data/final_feature_vector.csv```
 * press run all, or run manually, final cell shows the headline result. 
 
 #### Jupyter Notebooks
@@ -57,11 +60,15 @@ $$
 
 #### Ports and Chokepoints
 
-![ports and chokepoints](ports_chokepoints.png)
+![ports and chokepoints](plots/ports_chokepoints.png)
 
 #### Maritime Traffic
 
-![plot of maritime traffic through selected chokepoints](traffic.png)
+![plot of maritime traffic through selected chokepoints](plots/traffic.png)
+
+#### Results
+
+![plot of Recall@K and Precision@K against precision baseline](plots/headline.png)
 
 #### Datasets: 
 
@@ -83,7 +90,7 @@ https://portwatch.imf.org/datasets/3da2b9ca97684916b75c4013f95d18ab/about
 
 #### Unsupervised analysis: K-Means clusters 
 
-![plots of k-means clustering results](k_means.png)
+![plots of k-means clustering results](plots/k_means.png)
 
 
 #### Metrics and Baselines 
