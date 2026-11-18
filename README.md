@@ -12,6 +12,10 @@ Logistic regression fit on three ratio features achieved a **Recall@3 score of 0
 The logistic regression model improves Recall@3 by **0.297** over the persistence baseline.
 
 #### To Run
+```bash
+git clone https://github.com/samAmabile/Maritime.git 
+cd Maritime 
+```
 
 * Complete analysis in ```report.ipynb```
 * press run all, or run manually, final cell shows the headline result. 
