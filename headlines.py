@@ -8,7 +8,7 @@ Loads final_feature_vector.csv, then:
   3. reruns k-means on the 28 chokepoint profiles
   4. prints everything and compares to the numbers quoted in the notebook
 
-Usage:  python verify_reproducibility.py [path/to/final_feature_vector.csv]
+Usage:  python headline.py [data/final_feature_vector.csv]
 
 EXPECTED COLUMNS (the notebook's `model_data` after the feature step):
   portid, portname, date, n_total, traffic_lag1, mean_7day, mean_28day,
