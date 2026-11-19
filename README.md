@@ -16,12 +16,15 @@ The logistic regression model improves Recall@3 by **0.297** over the persistenc
 git clone https://github.com/samAmabile/Maritime.git 
 cd Maritime 
 
-# the easiest way to run is to press run all in an IDE that supports ipynb, or run cells individually top to bottom. Running all takes about 5 minutes to complete. 
+#print all results to console 
+python headline.py
+
+# the easiest way to run whole notebook is to press run all in an IDE that supports ipynb, or run cells individually top to bottom. Running all takes about 5 minutes to complete. 
 ```
 
 * Complete analysis in ```report.ipynb```
 * Final feature vector in ```data/final_feature_vector.csv```
-* press run all, or run manually, final cell shows the headline result. 
+* press run all, or run manually, first and final cell shows the headline result. 
 
 #### Jupyter Notebooks
 
